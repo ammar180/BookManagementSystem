@@ -62,7 +62,7 @@ namespace Quiz_2.Repositories
 			return true;
 		}
 
-		public async Task<string> RegisterAuthor(AuthorDto dto)
+		public async Task<string> RegisterAuthor(AuthorDto dto, List<BookDto>? booksDtos)
 		{
 			var author = new Author
 			{
@@ -70,6 +70,13 @@ namespace Quiz_2.Repositories
 				PhoneNumber = dto.PhoneNumber,
 				EmailAddress = dto.EmailAddress,
 			};
+			if (booksDtos != null) {
+				author.Books = booksDtos.Select(b => new Book
+				{
+					Title = b.Title,
+					PublishedYear = b.PublishedYear,
+				}).ToList();
+			}
 			await _context.Authors.AddAsync(author);
 			try
 			{

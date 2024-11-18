@@ -18,7 +18,9 @@ namespace Quiz_2.Models
 		public string Title { get; set; }
 		[Required]
         public DateOnly PublishedYear { get; set; }
+		[Required]
         public int AuthorId { get; set; }
+		[Required]
         public int GenreId { get; set; }
     }
 }

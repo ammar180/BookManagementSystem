@@ -51,11 +51,11 @@ namespace Quiz_2.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> PostAuthor([FromForm] AuthorDto authorDto)
+		public async Task<IActionResult> PostAuthor([FromBody] AuthorWithBooksDto authorWithBooksDto)
 		{
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
 			{
-				return Ok(await _authorRepo.RegisterAuthor(authorDto));
+				return Ok(await _authorRepo.RegisterAuthor(authorWithBooksDto.authorDto, authorWithBooksDto.authorBooks));
 			}
 			return BadRequest(ModelState);
 		}

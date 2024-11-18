@@ -46,13 +46,15 @@ namespace Quiz_2.Repositories
 
 		public async Task<bool> UpdateBook(int id, BookDto dto)
 		{
-			var book = await GetBookById(id);
+			var book = await GetBookByIdLazy(id);
 
 			if (book == null)
 				return false;
 
 			book.Title = dto.Title;
 			book.PublishedYear = dto.PublishedYear;
+			book.Authors = new List<Author>();
+			book.Genres = new List<Genre>();
 
 			var author = await _context.Authors.FindAsync(dto.AuthorId);
 
@@ -63,6 +65,7 @@ namespace Quiz_2.Repositories
 			if (genre != null)
 				book.Genres.Add(genre);
 			
+			_context.Entry(book).State = EntityState.Modified;
 			await _context.SaveChangesAsync();
 
 			return true;
